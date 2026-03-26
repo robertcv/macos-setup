@@ -1,5 +1,3 @@
--- From https://gist.github.com/jdtsmith/8f08cf22a7177884b437cd25c0fba7d5
--- Implement movong windows between spaces logic
 local hotkey = require "hs.hotkey"
 local window = require "hs.window"
 local hse, hsee, hst = hs.eventtap,hs.eventtap.event,hs.timer
@@ -16,7 +14,7 @@ end
 
 function switchSpace(skip,dir)
    for i=1,skip do
-      hs.eventtap.keyStroke({"ctrl","fn"},dir,0) -- "fn" is a bugfix!
+      hs.eventtap.keyStroke({"cmd","fn"},dir,0) -- "fn" is a bugfix!
    end 
 end
 
@@ -67,58 +65,40 @@ function moveWindowOneSpace(dir,switch)
    end
 end
 
-hotkey.bind({"ctrl", "shift"}, "right",nil,
-	    function() moveWindowOneSpace("right",true) end)
-hotkey.bind({"fn", "shift"}, "right",nil,
-	    function() moveWindowOneSpace("right",true) end)
-hotkey.bind({"ctrl", "shift"}, "left",nil,
-	    function() moveWindowOneSpace("left",true) end)
-hotkey.bind({"fn", "shift"}, "left",nil,
-	    function() moveWindowOneSpace("left",true) end)
+hotkey.bind({"cmd", "shift"}, "right", nil,
+    function() moveWindowOneSpace("right", true) end)
+hotkey.bind({"cmd", "shift"}, "left", nil,
+    function() moveWindowOneSpace("left", true) end)
 
+hotkey.bind({"cmd", "alt"}, "left", nil, function()
+    local win = hs.window.focusedWindow()
+    if not win then return end
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
 
--- implement quiting app after last window closes
--- implemented with vibes 😎 and lotes of handholding / documentation checks
--- List of apps that should not be quit when their last window is closed
-local unkillableApps = {
-  "Finder",
-  "Hammerspoon",
-  "Karabiner-Elements",
-  "Slack",
-  "1Password"
-}
+    f.x = max.x
+    f.y = max.y
+    f.w = max.w / 2
+    f.h = max.h
+    win:setFrame(f)
+end)
 
-local function isUnkillable(appName)
-    for _, name in ipairs(unkillableApps) do
-        if name == appName then
-            return true
-        end
-    end
-    return false
-end
+hotkey.bind({"cmd", "alt"}, "right", nil, function()
+    local win = hs.window.focusedWindow()
+    if not win then return end
+    local f = win:frame()
+    local screen = win:screen()
+    local max = screen:frame()
 
--- Create a filter for all windows (nil = all apps)
-local allWindowFilter = hs.window.filter.new(nil)
+    f.x = max.x + (max.w / 2)
+    f.y = max.y
+    f.w = max.w / 2
+    f.h = max.h
+    win:setFrame(f)
+end)
 
--- Subscribe to the windowDestroyed event
-allWindowFilter:subscribe(hs.window.filter.windowDestroyed, function(win, appName, event)
-    print("Window destroyed: " .. (win:title() or "unknown") .. " in " .. appName)
-    local app = win:application()
-    if app then
-        if isUnkillable(appName) then
-            print(appName .. " is on the unkillable list and will not be terminated.")
-            return -- Exit the function early
-        end
-    
-        -- Get all remaining windows for the application
-        local remainingWindows = app:allWindows()
-
-        -- If there are no other windows for this app, terminate it
-        if #remainingWindows == 0 then
-            app:kill()
-            print("Last window closed. Application " .. appName .. " has been terminated.")
-        else
-            print("Application " .. appName .. " has other windows open, not terminating.")
-        end
-    end
+-- Bind Command + Control + L to lock the screen
+hs.hotkey.bind({"cmd", "alt"}, "L", function()
+    hs.caffeinate.lockScreen()
 end)
