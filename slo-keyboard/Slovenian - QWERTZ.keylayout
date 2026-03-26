@@ -411,22 +411,22 @@
             <key code="11" output="{"/>
             <key code="12" output="\"/>
             <key code="13" output="|"/>
-            <key code="14" action="´"/>
+            <key code="14" output="€"/>
             <key code="15" output="®"/>
             <key code="16" output="—"/>
             <key code="17" output="†"/>
             <key code="18" output="~"/>
-            <key code="19" output="™"/>
+            <key code="19" output="ˇ"/>
             <key code="20" output="^"/>
-            <key code="21" output="¢"/>
-            <key code="22" output="§"/>
-            <key code="23" output="∞"/>
-            <key code="24" output="≠"/>
+            <key code="21" output="˘"/>
+            <key code="22" output="˛"/>
+            <key code="23" output="°"/>
+            <key code="24" output="¸"/>
             <key code="25" output="´"/>
             <key code="26" output="`"/>
-            <key code="27" output="-"/>
+            <key code="27" output="¨"/>
             <key code="28" output="˙"/>
-            <key code="29" output="º"/>
+            <key code="29" output="´"/>
             <key code="30" output="©"/>
             <key code="31" output="ø"/>
             <key code="32" action="¨"/>
@@ -440,11 +440,11 @@
             <key code="40" action="invertedBreve"/>
             <key code="41" output="…"/>
             <key code="42" output="œ"/>
-            <key code="43" output="≤"/>
+            <key code="43" output="&#x003C;"/>
             <key code="44" output="÷"/>
             <key code="45" output="}"/>
             <key code="46" output="µ"/>
-            <key code="47" output="≥"/>
+            <key code="47" output="&#x003E;"/>
             <key code="48" output="&#x0009;"/>
             <key code="49" output=" "/>
             <key code="50" action="`"/>
