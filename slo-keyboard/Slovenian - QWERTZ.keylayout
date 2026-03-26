@@ -204,11 +204,11 @@
             <key code="40" output="K"/>
             <key code="41" output="Č"/>
             <key code="42" output="Ž"/>
-            <key code="43" output=";"/>
+            <key code="43" output="&#x003C;"/>
             <key code="44" output="_"/>
             <key code="45" action="N"/>
             <key code="46" output="M"/>
-            <key code="47" output=":"/>
+            <key code="47" output="&#x003E;"/>
             <key code="48" output="&#x0009;"/>
             <key code="49" action=" "/>
             <key code="50" action="¨"/>
